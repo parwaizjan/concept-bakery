@@ -5,3 +5,7 @@
 # site can appear in search results.
 /*
   X-Robots-Tag: noindex, nofollow
+
+# Astro content-hashed assets — safe to cache immutably for repeat visits.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,0 +1,41 @@
+---
+import type { Locale } from "../../data/site";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<button
+  type="button"
+  data-cart-open
+  class="btn btn-outline relative min-h-10 !px-3"
+  aria-label={t("cart.viewOrder")}
+>
+  <svg
+    aria-hidden="true"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="9" cy="20" r="1.5"></circle>
+    <circle cx="18" cy="20" r="1.5"></circle>
+    <path d="M2 3h3l2.4 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L22 7H6"></path>
+  </svg>
+  <span
+    data-cart-count
+    hidden
+    class="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-on-primary"
+  >
+    0
+  </span>
+</button>

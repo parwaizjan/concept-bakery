@@ -1,0 +1,22 @@
+---
+import type { Locale } from "../../data/site";
+import type { MenuItem } from "../../lib/menu";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  items: MenuItem[];
+  lang: Locale;
+}
+
+const { items, lang } = Astro.props;
+---
+
+<ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    items.map((item) => (
+      <li>
+        <ProductCard item={item} lang={lang} />
+      </li>
+    ))
+  }
+</ul>

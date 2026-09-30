@@ -1,0 +1,28 @@
+---
+import type { Locale } from "../../data/site";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div
+  data-sticky-bar
+  hidden
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface py-3 shadow-[0_-8px_24px_rgb(59_42_33_/_0.12)]"
+>
+  <div class="container-page flex items-center justify-between gap-3">
+    <div class="text-sm">
+      <span data-sticky-count class="font-medium">0</span>
+      <span class="mx-1 text-text-muted">·</span>
+      <span data-sticky-total class="font-semibold"></span>
+    </div>
+    <button type="button" data-cart-open class="btn btn-primary">
+      {t("cart.viewOrder")}
+    </button>
+  </div>
+</div>

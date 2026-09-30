@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Menu from "../menu/Menu.astro";
+import { type Locale } from "../../data/site";
+import { getCategories, getMenu } from "../../lib/menu";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const [items, categories] = await Promise.all([
+  getMenu(lang),
+  getCategories(lang),
+]);
+---
+
+<BaseLayout lang={lang} path="/menu" title={t("nav.menu")}>
+  <Menu categories={categories} items={items} lang={lang} heading="h1" />
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import type { Locale } from "../../data/site";
+import type { MenuCategory, MenuItem } from "../../lib/menu";
+import { useTranslations } from "../../i18n/utils";
+import CategoryNav from "./CategoryNav.astro";
+import ProductGrid from "./ProductGrid.astro";
+
+interface Props {
+  categories: MenuCategory[];
+  items: MenuItem[];
+  lang: Locale;
+  /** Heading level for the section title (page uses h1, homepage h2). */
+  heading?: "h1" | "h2";
+}
+
+const { categories, items, lang, heading = "h2" } = Astro.props;
+const t = useTranslations(lang);
+const Heading = heading;
+---
+
+<section id="menu" class="container-page py-10">
+  <header class="mb-4">
+    <Heading class="font-heading text-3xl">{t("menu.title")}</Heading>
+    <p class="mt-1 text-text-muted">{t("menu.subtitle")}</p>
+  </header>
+
+  <CategoryNav categories={categories} lang={lang} />
+
+  {
+    items.length === 0 ? (
+      <p class="mt-8 text-text-muted">{t("menu.empty")}</p>
+    ) : (
+      <div class="mt-6 space-y-10">
+        {categories.map((category) => {
+          const group = items.filter((item) => item.category === category.id);
+          if (group.length === 0) return null;
+          return (
+            <div data-category-section={category.id}>
+              <h3 class="mb-3 font-heading text-2xl">{category.name}</h3>
+              <ProductGrid items={group} lang={lang} />
+            </div>
+          );
+        })}
+      </div>
+    )
+  }
+</section>

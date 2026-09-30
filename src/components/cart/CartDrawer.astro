@@ -1,0 +1,157 @@
+---
+import { site, type Locale } from "../../data/site";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { allowPickup, allowDelivery } = site.order;
+---
+
+<div
+  data-cart-drawer
+  hidden
+  class="fixed inset-0 z-50"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t("cart.title")}
+>
+  <div class="absolute inset-0 bg-black/50" data-cart-close></div>
+
+  <div
+    class="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-surface shadow-xl"
+  >
+    <header
+      class="flex items-center justify-between border-b border-border p-4"
+    >
+      <h2 class="font-heading text-xl">{t("cart.title")}</h2>
+      <button
+        type="button"
+        data-cart-close
+        class="btn btn-outline h-10 w-10 !p-0 text-xl leading-none"
+        aria-label={t("common.close")}
+      >
+        ×
+      </button>
+    </header>
+
+    <div class="flex-1 overflow-y-auto p-4">
+      <div data-cart-empty>
+        <p class="font-medium">{t("cart.empty")}</p>
+        <p class="mt-1 text-sm text-text-muted">{t("cart.emptyHint")}</p>
+      </div>
+
+      <div data-cart-items></div>
+
+      <div data-cart-summary hidden class="mt-4">
+        <div class="flex items-center justify-between text-lg font-semibold">
+          <span>{t("cart.total")}</span>
+          <span data-cart-total></span>
+        </div>
+        <p class="mt-1 text-xs text-text-muted">{t("cart.indicative")}</p>
+      </div>
+
+      <form data-order-form class="mt-6 space-y-4">
+        <fieldset>
+          <legend class="mb-2 text-sm font-medium">{t("order.title")}</legend>
+          <div class="flex gap-2">
+            {
+              allowPickup && (
+                <label class="flex flex-1 cursor-pointer items-center gap-2 rounded-md border border-border p-3 text-sm">
+                  <input
+                    type="radio"
+                    name="fulfillment"
+                    value="pickup"
+                    checked
+                  />
+                  {t("order.pickup")}
+                </label>
+              )
+            }
+            {
+              allowDelivery && (
+                <label class="flex flex-1 cursor-pointer items-center gap-2 rounded-md border border-border p-3 text-sm">
+                  <input
+                    type="radio"
+                    name="fulfillment"
+                    value="delivery"
+                    checked={!allowPickup}
+                  />
+                  {t("order.delivery")}
+                </label>
+              )
+            }
+          </div>
+        </fieldset>
+
+        <div>
+          <label for="order-name" class="mb-1 block text-sm font-medium">
+            {t("order.name")}
+          </label>
+          <input
+            id="order-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder={t("order.namePlaceholder")}
+            class="input"
+          />
+        </div>
+
+        <div>
+          <label for="order-phone" class="mb-1 block text-sm font-medium">
+            {t("order.phone")}
+          </label>
+          <input
+            id="order-phone"
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel"
+            inputmode="tel"
+            placeholder={t("order.phonePlaceholder")}
+            class="input"
+          />
+        </div>
+
+        <div data-delivery-field hidden={allowPickup}>
+          <label for="order-address" class="mb-1 block text-sm font-medium">
+            {t("order.address")}
+          </label>
+          <input
+            id="order-address"
+            name="address"
+            type="text"
+            autocomplete="street-address"
+            placeholder={t("order.addressPlaceholder")}
+            class="input"
+          />
+        </div>
+
+        <div>
+          <label for="order-notes" class="mb-1 block text-sm font-medium">
+            {t("order.notes")}
+            <span class="font-normal text-text-muted"
+              >({t("common.optional")})</span
+            >
+          </label>
+          <textarea
+            id="order-notes"
+            name="notes"
+            rows="3"
+            placeholder={t("order.notesPlaceholder")}
+            class="input"></textarea>
+        </div>
+
+        <button type="submit" data-send class="btn btn-primary w-full" disabled>
+          {t("order.send")}
+        </button>
+        <p class="text-center text-xs text-text-muted">{t("order.noFees")}</p>
+      </form>
+    </div>
+  </div>
+</div>

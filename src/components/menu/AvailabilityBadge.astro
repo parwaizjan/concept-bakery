@@ -1,0 +1,21 @@
+---
+import type { Locale } from "../../data/site";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  available: boolean;
+  lang: Locale;
+}
+
+const { available, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<span
+  class:list={[
+    "badge",
+    available ? "bg-success text-white" : "bg-danger text-white",
+  ]}
+>
+  {available ? t("menu.available") : t("menu.soldOut")}
+</span>

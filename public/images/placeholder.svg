@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Photo coming soon">
+  <rect width="640" height="480" fill="#F6E9DC" />
+  <g
+    fill="none"
+    stroke="#C9AE95"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M214 300a106 106 0 0 1 212 0v22a12 12 0 0 1-12 12H226a12 12 0 0 1-12-12z" />
+    <path d="M258 296c10-22 30-38 62-44M382 252c18 12 30 28 34 44" />
+    <path d="M300 214v-26M320 210v-30M340 214v-26" />
+  </g>
+  <text
+    x="320"
+    y="404"
+    text-anchor="middle"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="22"
+    fill="#A98F78"
+  >Photo coming soon</text>
+</svg>

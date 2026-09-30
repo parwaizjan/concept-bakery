@@ -1,0 +1,49 @@
+---
+import type { Locale } from "../../data/site";
+import type { MenuItem } from "../../lib/menu";
+import { formatPrice } from "../../lib/format";
+import { useTranslations, localizePath } from "../../i18n/utils";
+import ProductImage from "./ProductImage.astro";
+
+interface Props {
+  items: MenuItem[];
+  lang: Locale;
+}
+
+const { items, lang } = Astro.props;
+const t = useTranslations(lang);
+const featured = items.filter((item) => item.featured);
+---
+
+{
+  featured.length > 0 && (
+    <section class="bg-surface-alt py-10">
+      <div class="container-page">
+        <h2 class="mb-4 font-heading text-2xl">{t("bestsellers.title")}</h2>
+        <ul class="no-scrollbar flex gap-4 overflow-x-auto pb-2">
+          {featured.map((item) => (
+            <li class="w-44 shrink-0">
+              <a
+                href={`${localizePath("/menu", lang)}#menu`}
+                class="card block overflow-hidden"
+              >
+                <ProductImage
+                  image={item.image}
+                  alt={item.name}
+                  sizes="11rem"
+                  class="aspect-[4/3] w-full object-cover"
+                />
+                <div class="p-3">
+                  <p class="truncate font-medium">{item.name}</p>
+                  <p class="text-sm text-text-muted">
+                    {formatPrice(item.price)}
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

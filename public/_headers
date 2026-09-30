@@ -1,0 +1,7 @@
+# Cloudflare headers.
+#
+# This concept/demo is not indexed. When cloning for a real bakery and setting
+# `indexable: true` in src/data/site.ts, remove the X-Robots-Tag line below so the
+# site can appear in search results.
+/*
+  X-Robots-Tag: noindex, nofollow

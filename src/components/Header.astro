@@ -1,0 +1,58 @@
+---
+import { site, type Locale } from "../data/site";
+import { useTranslations, localizePath } from "../i18n/utils";
+import LangSwitcher from "./LangSwitcher.astro";
+import CartButton from "./cart/CartButton.astro";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const links = [
+  { key: "nav.home", href: "/" },
+  { key: "nav.menu", href: "/menu" },
+  { key: "nav.about", href: "/about" },
+  { key: "nav.gallery", href: "/gallery" },
+  { key: "nav.visit", href: "/visit" },
+] as const;
+---
+
+<header class="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur">
+  <div class="container-page flex items-center justify-between gap-3 pt-2">
+    <a
+      href={localizePath("/", lang)}
+      class="flex items-center gap-2"
+      aria-label={site.name}
+    >
+      <img src={site.logo} alt="" width="36" height="36" />
+      <span
+        class="hidden whitespace-nowrap font-heading text-lg font-semibold sm:inline"
+        >{site.name}</span
+      >
+    </a>
+    <div class="flex items-center gap-2">
+      <LangSwitcher lang={lang} />
+      <CartButton lang={lang} />
+    </div>
+  </div>
+
+  <nav class="container-page" aria-label={t("nav.menu")}>
+    <ul class="no-scrollbar flex gap-1 overflow-x-auto py-1.5">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={localizePath(link.href, lang)}
+              class="inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2 text-sm font-medium text-text-muted hover:bg-surface-alt hover:text-text sm:px-3"
+            >
+              {t(link.key)}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

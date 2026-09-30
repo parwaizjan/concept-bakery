@@ -1,0 +1,44 @@
+---
+import { site, type Locale } from "../data/site";
+import { localizePath } from "../i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Locale;
+  /** Logical (locale-less) path, e.g. "/menu" or "/". */
+  path: string;
+}
+
+const { title, description, lang, path } = Astro.props;
+const hrefFor = (locale: Locale) =>
+  new URL(localizePath(path, locale), site.siteUrl).href;
+const canonical = hrefFor(lang);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{!site.indexable && <meta name="robots" content="noindex, nofollow" />}
+
+{
+  site.locales.map((locale) => (
+    <link rel="alternate" hreflang={locale} href={hrefFor(locale)} />
+  ))
+}
+
+{
+  site.indexable && (
+    <>
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content={site.name} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content={canonical} />
+      <meta property="og:locale" content={lang} />
+      <meta name="twitter:card" content="summary_large_image" />
+      {/* Add a raster og:image (1200x630) per clone in /public/images/og.* */}
+    </>
+  )
+}

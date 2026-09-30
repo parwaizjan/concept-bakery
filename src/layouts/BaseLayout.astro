@@ -1,0 +1,73 @@
+---
+import { site, type Locale } from "../data/site";
+import { ui } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CartDrawer from "../components/cart/CartDrawer.astro";
+import StickyOrderBar from "../components/cart/StickyOrderBar.astro";
+import Seo from "../components/Seo.astro";
+import "../styles/global.css";
+
+interface Props {
+  lang: Locale;
+  title?: string;
+  description?: string;
+  /** Logical (locale-less) path for canonical/hreflang, e.g. "/menu". */
+  path: string;
+}
+
+const { lang, title, description, path } = Astro.props;
+const t = useTranslations(lang);
+
+const pageTitle = title ? `${title} · ${site.name}` : site.name;
+const pageDescription = description ?? site.tagline[lang] ?? site.tagline.en;
+
+const orderConfig = {
+  whatsappNumber: site.whatsappNumber,
+  siteName: site.name,
+  lang,
+  i18n: ui[lang],
+  menu: site.menu,
+};
+---
+
+<!doctype html>
+<html lang={lang} translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google" content="notranslate" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Seo
+      title={pageTitle}
+      description={pageDescription}
+      lang={lang}
+      path={path}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;500;600&display=swap"
+    />
+    <script
+      type="application/json"
+      id="order-config"
+      set:html={JSON.stringify(orderConfig)}
+    />
+    <script>
+      import "../scripts/order";
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t("a11y.skip")}</a>
+    <Header lang={lang} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <CartDrawer lang={lang} />
+    <StickyOrderBar lang={lang} />
+  </body>
+</html>

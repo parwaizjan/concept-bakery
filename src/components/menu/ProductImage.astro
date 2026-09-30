@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+
+import type { MenuImage } from "../../lib/menu";
+
+interface Props {
+  image: MenuImage;
+  alt: string;
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+  eager?: boolean;
+}
+
+const {
+  image,
+  alt,
+  widths = [300, 600],
+  sizes = "(min-width: 1024px) 20rem, (min-width: 640px) 45vw, 90vw",
+  class: className = "",
+  eager = false,
+} = Astro.props;
+
+const loading = eager ? "eager" : "lazy";
+---
+
+{
+  typeof image === "string" ? (
+    <img
+      src={image}
+      alt={alt}
+      width="640"
+      height="480"
+      loading={loading}
+      decoding="async"
+      class={className}
+    />
+  ) : (
+    <Image
+      src={image}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+      class={className}
+    />
+  )
+}

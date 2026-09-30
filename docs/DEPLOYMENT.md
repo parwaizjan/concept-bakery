@@ -85,8 +85,13 @@ no credentials.
 
 ## 7. Headers and caching
 
-- `public/_headers` sets long cache lifetimes for hashed assets and adds
-  `X-Robots-Tag: noindex` while the site is not indexable.
+- `public/_headers` sets a one-year immutable cache for hashed `/_astro/*` assets
+  and adds `X-Robots-Tag: noindex, nofollow`.
+- **The `X-Robots-Tag` line is the demo's no-index switch.** A real bakery clone
+  must delete it when it sets `indexable: true`, or the site stays out of search
+  results regardless of `robots.txt`. See "Turning on indexing" in
+  `docs/CUSTOMIZATION.md`; verify with
+  `curl -sI https://<domain>/ | grep -i x-robots` (should return nothing).
 - Because output is static, Cloudflare's edge caching handles most traffic.
 - Keep total page weight low; most visitors are on mobile networks.
 
@@ -103,5 +108,7 @@ domain after deploying.
 - [ ] WhatsApp order opens with the correct number and itemized message.
 - [ ] `robots.txt` matches the intended `indexable` state; sitemap present only if
       indexable.
+- [ ] If indexable: `X-Robots-Tag` header gone, no `noindex` meta, `og:title`/
+      `og:image` present, `siteUrl` set to the real domain.
 - [ ] No demo branding or demo phone number remains in a clone.
 - [ ] Opening hours and map are correct.

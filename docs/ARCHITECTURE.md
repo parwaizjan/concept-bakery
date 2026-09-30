@@ -209,13 +209,18 @@ Details of the Sheet format, fetch mechanism and fallback are in
 
 ## 7. Indexing
 
-Controlled solely by `site.indexable`:
+`site.indexable` drives the meta tag, `robots.txt` and the sitemap:
 
 - `false` (concept default): `<meta name="robots" content="noindex, nofollow">`,
-  `robots.txt` disallows everything, no sitemap generated, `X-Robots-Tag: noindex`
-  header via `public/_headers`, no Open Graph.
+  `robots.txt` disallows everything, no sitemap generated, no Open Graph.
 - `true` (real bakery): indexing allowed, sitemap generated (`@astrojs/sitemap`),
   Open Graph/Twitter meta and canonical URLs emitted.
+
+One piece is **not** driven by the flag: `public/_headers` always adds
+`X-Robots-Tag: noindex, nofollow`, which overrides everything above. A real bakery
+clone must delete that line when it sets `indexable: true`, and set `siteUrl` to the
+real domain. Otherwise the site stays invisible to search engines. See "Turning on
+indexing" in `docs/CUSTOMIZATION.md`.
 
 Never commit a demo with `indexable: true`, and never ship a production clone with
 `indexable: false`.

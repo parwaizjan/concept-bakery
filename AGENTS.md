@@ -57,9 +57,12 @@ human instruction recorded in this file.
    cost or complexity for the owner. The owner does **not** add new items
    themselves; new items and photos are sent to the developer.
 5. **No indexing by default.** The concept/demo must not appear in search results.
-   Cloning a real bakery flips a single flag (`indexable: true` in
-   `src/data/site.ts`) which enables indexing, sitemap and Open Graph. Never ship a
-   demo with indexing on, and never ship a paid bakery clone with indexing off.
+   Cloning a real bakery turns indexing on in **three** places together: set
+   `indexable: true` in `src/data/site.ts`, **delete the `X-Robots-Tag: noindex`
+   line from `public/_headers`**, and set `siteUrl` to the real domain. Missing any
+   of the three keeps the site out of search results. See "Turning on indexing" in
+   `docs/CUSTOMIZATION.md`. Never ship a demo with indexing on, and never ship a
+   paid bakery clone with indexing off.
 6. **Trilingual structure is mandatory.** Every user-facing string must be
    translatable. English is the default; `si` and `ta` are first-class. Do not
    hardcode English copy into components. See `docs/ARCHITECTURE.md`.
@@ -82,7 +85,7 @@ human instruction recorded in this file.
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Bakery name, tagline, logo, colors, fonts            | `src/data/site.ts`, `src/styles/theme.css`, `public/logo.svg`                                             |
 | WhatsApp number, phone, address, map, hours, socials | `src/data/site.ts`                                                                                        |
-| Indexing on/off, sitemap, robots                     | `src/data/site.ts` (`indexable`), `src/pages/robots.txt.ts`                                               |
+| Indexing on/off, sitemap, robots                     | `src/data/site.ts` (`indexable`), `src/pages/robots.txt.ts`, `public/_headers` (`X-Robots-Tag`)           |
 | Enabled languages / default language                 | `src/data/site.ts`, `astro.config.mjs`                                                                    |
 | Menu items, categories, images (new items)           | `src/content/products/`, `src/content/categories/`, `src/assets/` (`products/`, `gallery/`, `gallery.ts`) |
 | Live prices / availability (owner)                   | Google Sheet (documented in `docs/CONTENT-AND-MENU.md`)                                                   |
@@ -117,13 +120,17 @@ checklist lives in `docs/CUSTOMIZATION.md`. Summary:
    history, so the new bakery starts clean.
 2. `npm install`.
 3. Edit `src/data/site.ts` end to end (name, contacts, colors, locales, indexable).
+   For a real bakery set `indexable: true` **and** delete the `X-Robots-Tag` line
+   from `public/_headers`, and set `siteUrl` to the real domain — all three, or the
+   site stays out of search results. See `docs/CUSTOMIZATION.md`.
 4. Replace `public/logo.svg`, `public/favicon.svg`, and hero/gallery images.
 5. Update content: categories, products, page copy, translations.
 6. Point the menu at the bakery's own Google Sheet.
 7. `npm run check && npm run build`.
 8. Deploy with `wrangler deploy`; attach the bakery's custom domain.
-9. Verify: WhatsApp order message arrives, `robots.txt` allows indexing, language
-   switcher works, hours/map are correct.
+9. Verify: WhatsApp order message arrives, `robots.txt` allows indexing and no
+   `X-Robots-Tag` header is sent (indexing truly on), language switcher works,
+   hours/map are correct.
 
 Do not leave placeholder branding, demo phone numbers, or `indexable: false` in a
 production clone.

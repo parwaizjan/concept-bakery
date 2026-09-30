@@ -25,8 +25,8 @@ It must be quick and mechanical. If a step is unclear or missing, fix this doc.
      `mapEmbedUrl`, `mapLink`
    - `hours`, `socials`
    - `order.allowPickup` / `order.allowDelivery`
-   - `indexable: true` for a real bakery
-   - `siteUrl` and `currency` if different
+   - `indexable: true` for a real bakery (and see "Turning on indexing" below)
+   - `siteUrl` to the bakery's real domain, `currency` if different
    - `heroVariant` if the owner wants a different hero
 2. **`src/styles/theme.css`** — set the brand colors/fonts (CSS variables). Do not
    edit component styles for color.
@@ -35,6 +35,26 @@ It must be quick and mechanical. If a step is unclear or missing, fix this doc.
    about/story photo (`src/assets/about.jpg`), the gallery photos
    (`src/assets/gallery/`, listed in `src/data/gallery.ts`) and the product photos
    (`src/assets/products/`, named after each product id).
+
+### Turning on indexing (do not miss this)
+
+The concept ships invisible to search engines on purpose. A **live bakery must be
+findable**, so all three of these have to change together or the site will stay
+out of Google even when it looks live:
+
+1. **`src/data/site.ts` → `indexable: true`.** This enables Open Graph tags, the
+   sitemap, and makes `src/pages/robots.txt.ts` emit an allow-all `robots.txt`.
+2. **`public/_headers` → delete the `X-Robots-Tag: noindex, nofollow` line.** This
+   header overrides the meta tag, so leaving it in keeps the whole site invisible.
+3. **`src/data/site.ts` → `siteUrl`** must be the bakery's real domain, not the demo
+   domain, or canonical/hreflang/sitemap URLs will point at the demo.
+
+Then confirm on the live domain (not `preview`):
+
+- `robots.txt` shows `Allow: /` (not `Disallow: /`).
+- Page head has no `noindex` and shows `og:title` / `og:image`; `<html lang>` is right.
+- `curl -sI https://<domain>/ | grep -i x-robots` returns nothing.
+- `https://<domain>/sitemap-index.xml` returns `200`.
 
 ## 3. Content
 
@@ -76,8 +96,10 @@ Then verify, on a phone-sized viewport:
 - [ ] Sheet edits (price + availability) show up on the live page.
 - [ ] Order flow: add items, choose pickup/delivery, send — owner receives a
       correct itemized message.
-- [ ] `robots.txt` allows indexing (because `indexable: true`) and the sitemap is
-      generated.
+- [ ] Indexing fully on (see "Turning on indexing"): `indexable: true`,
+      `X-Robots-Tag` removed from `public/_headers`, `siteUrl` set to the real
+      domain; `robots.txt` allows, no `noindex` meta, the `X-Robots-Tag` header is
+      gone, the sitemap returns `200`, and `og:title`/`og:image` are present.
 - [ ] Opening hours and Google Map point to the right place.
 - [ ] Language switcher works for en/si/ta and preserves the page.
 
@@ -91,6 +113,9 @@ Then verify, on a phone-sized viewport:
 ## Common mistakes
 
 - Leaving `indexable: false` in a production clone.
+- Setting `indexable: true` but forgetting to delete `X-Robots-Tag: noindex` from
+  `public/_headers`, or leaving `siteUrl` at the demo domain — the site stays out of
+  search results even though it is live.
 - Leaving the demo WhatsApp number or the demo Sheet URL.
 - Editing colors in components instead of `theme.css`.
 - Adding English-only strings (missing `si`/`ta`).

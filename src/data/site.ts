@@ -33,7 +33,7 @@ export const site = {
   logo: "/logo.svg",
 
   // Contact
-  whatsappNumber: "94770000000", // digits only, country code, no "+"
+  whatsappNumber: "94743430033", // digits only, country code, no "+"
   phone: "+94 77 000 0000",
   email: "", // display only; orders go to WhatsApp
   address: {

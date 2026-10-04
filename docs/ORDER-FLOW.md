@@ -63,7 +63,7 @@ New order from Crumb & Co. website
 - The `Address` line is included only for delivery orders.
 - Numbers encoded with `encodeURIComponent`; `\n` becomes `%0A`.
 - Do not use the `+` in the number; `wa.me` expects digits with country code
-  (`94770000000`).
+  (`94771234567`).
 
 ## 4. Cart rules
 

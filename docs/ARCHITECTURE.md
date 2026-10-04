@@ -103,8 +103,8 @@ export const site = {
   tagline: { en: "…", si: "…", ta: "…" },
   logo: "/logo.svg",
   // Contact
-  whatsappNumber: "94770000000", // digits only, country code, no +
-  phone: "+94 77 000 0000",
+  whatsappNumber: "94771234567", // digits only, country code, no +
+  phone: "+94 77 123 4567",
   email: "", // optional, display only
   address: { en: "…", si: "…", ta: "…" },
   mapEmbedUrl: "https://www.google.com/maps/embed?…",

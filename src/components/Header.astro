@@ -18,6 +18,11 @@ const links = [
   { key: "nav.gallery", href: "/gallery" },
   { key: "nav.visit", href: "/visit" },
 ] as const;
+
+// Current page without the locale prefix or trailing slash, e.g. `/si/about/` -> `/about`.
+const current =
+  Astro.url.pathname.replace(/^\/(si|ta)(?=\/|$)/, "").replace(/\/+$/, "") ||
+  "/";
 ---
 
 <header class="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur">
@@ -42,16 +47,24 @@ const links = [
   <nav class="container-page" aria-label={t("nav.menu")}>
     <ul class="no-scrollbar flex gap-1 overflow-x-auto py-1.5">
       {
-        links.map((link) => (
-          <li>
-            <a
-              href={localizePath(link.href, lang)}
-              class="inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2 text-sm font-medium text-text-muted hover:bg-surface-alt hover:text-text sm:px-3"
-            >
-              {t(link.key)}
-            </a>
-          </li>
-        ))
+        links.map((link) => {
+          const isActive = current === link.href;
+          return (
+            <li>
+              <a
+                href={localizePath(link.href, lang)}
+                aria-current={isActive ? "page" : undefined}
+                class:list={[
+                  "inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-2 text-sm font-medium text-text-muted hover:bg-surface-alt hover:text-text sm:px-3",
+                  isActive &&
+                    "bg-surface-alt font-semibold text-accent hover:text-accent",
+                ]}
+              >
+                {t(link.key)}
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
   </nav>

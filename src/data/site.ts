@@ -84,6 +84,19 @@ export const site = {
     refreshMinutes: 5,
   },
 
+  // Zuvo demo chrome. Real bakery clones set `enabled: false` to remove the sample
+  // ribbon and the `[DEMO: …]` prefix on every visitor message in one move. The
+  // studio number receives website enquiries (owners wanting a site like this one),
+  // which is a different conversation from a bakery order.
+  demo: {
+    enabled: true,
+    tag: "[DEMO: Bakery]",
+    studioName: "Zuvo Web Studio Express",
+    studioWhatsAppNumber: "94743430033",
+    ribbonText: "Sample website — a demo by Zuvo Web Studio Express",
+    ribbonCta: "Message us",
+  },
+
   // SEO — false for the concept demo, true for a real bakery clone.
   indexable: false,
   siteUrl: "https://demo-bakery.zuvo.lk",

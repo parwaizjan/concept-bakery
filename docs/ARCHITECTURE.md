@@ -118,6 +118,15 @@ export const site = {
   locales: ["en", "si", "ta"],
   // Ordering
   order: { allowPickup: true, allowDelivery: true },
+  // Zuvo demo chrome — clones set enabled:false to drop the ribbon + [DEMO] tag
+  demo: {
+    enabled: true,
+    tag: "[DEMO: Bakery]",
+    studioName: "Zuvo Web Studio Express",
+    studioWhatsAppNumber: "94743430033",
+    ribbonText: "Sample website — a demo by Zuvo Web Studio Express",
+    ribbonCta: "Message us",
+  },
   // SEO — false for the concept demo, true for a real bakery clone
   indexable: false,
   siteUrl: "https://demo-bakery.zuvo.lk",
@@ -194,6 +203,8 @@ Details of the Sheet format, fetch mechanism and fallback are in
   `docs/CONTENT-AND-MENU.md`.
 - `BaseLayout` sets `<html lang>` and `hreflang` alternates.
 - The language switcher preserves the current page across locales.
+- One deliberate exception: the Zuvo `DemoRibbon` is English in every locale (studio
+  attribution, not bakery content). See "Demo chrome" in section 6.
 
 ## 6. Cart
 
@@ -206,6 +217,24 @@ Details of the Sheet format, fetch mechanism and fallback are in
 - Checkout step: pickup/delivery toggle (per `site.order`), optional customer name,
   phone and notes, then "Send order on WhatsApp".
 - No login, no accounts, no server.
+
+### Demo chrome and the `[DEMO]` tag
+
+The concept wraps itself in Zuvo studio chrome so demos never read as a real
+business:
+
+- `DemoRibbon` (in `BaseLayout`, so every page and locale) — a slim brand-tinted
+  bar linking to a **website enquiry** for the studio. English-only on purpose: it
+  is studio attribution, not bakery content.
+- Every **visitor-facing** demo message (order and enquiry CTAs, the cart/order
+  summary) is prefixed with `site.demo.tag` (`[DEMO: Bakery] `) so it is not
+  mistaken for a website enquiry.
+
+Both are governed by one switch, `site.demo.enabled`. The central helpers live in
+`src/lib/whatsapp.ts`: `withDemoTag()` (used inside `buildOrderMessage`) and
+`buildDemoWhatsAppUrl()` (used by the hero and contact CTAs). The ribbon's own link
+is intentionally **not** tagged — it is the website enquiry. A real bakery clone
+sets `site.demo.enabled: false`, which drops the ribbon and the tag together.
 
 ## 7. Indexing
 

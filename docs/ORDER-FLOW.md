@@ -42,7 +42,7 @@ Built by `src/lib/whatsapp.ts`. Keep it plain text, unambiguous on a phone, and
 localized where it does not confuse the owner.
 
 ```text
-New order from Crumb & Co. website
+[DEMO: Bakery] Hello! I would like to place an order:
 
 *Items*
 1. Love Cake x2 — Rs. 3,600
@@ -64,6 +64,10 @@ New order from Crumb & Co. website
 - Numbers encoded with `encodeURIComponent`; `\n` becomes `%0A`.
 - Do not use the `+` in the number; `wa.me` expects digits with country code
   (`94771234567`).
+- **Demo tag.** Every visitor-facing demo message (the order message, the hero and
+  contact enquiry CTAs) is prefixed with `site.demo.tag` (`[DEMO: Bakery] `) via
+  `withDemoTag()` in `src/lib/whatsapp.ts`, so it is distinguishable from a website
+  enquiry to the studio. One switch removes it: `site.demo.enabled: false` (clones).
 
 ## 4. Cart rules
 

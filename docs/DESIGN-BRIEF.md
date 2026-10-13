@@ -22,6 +22,12 @@ The **homepage is the primary ordering surface**. The full menu lives on it so a
 visitor can start adding items after one scroll. A dedicated `/menu` page mirrors
 the same menu component for sharing and indexing.
 
+Every page in every locale starts with a slim, non-dismissible **Zuvo sample ribbon**
+(`DemoRibbon`) above the header: studio attribution plus a "Message us" website
+enquiry link. It is brand-tinted (`bg-primary text-on-primary`), small and centered,
+**English-only by design** (studio chrome, not bakery content), and disappears when
+`site.demo.enabled` is false.
+
 Homepage sections, in order:
 
 1. **Header** (sticky, compact): logo, language switcher, cart button with a count
@@ -125,7 +131,7 @@ between them for pitches; a clone picks one and customises.
 
 ## 6. Component inventory
 
-- Layout: `BaseLayout`, `Header`, `Footer`, `LangSwitcher`, `Seo`.
+- Layout: `BaseLayout`, `DemoRibbon`, `Header`, `Footer`, `LangSwitcher`, `Seo`.
 - Hero: `Hero` under `components/hero/`, switching on `site.heroVariant`
   (`classic` | `split` | `menu-first`).
 - Menu: `Menu`, `CategoryNav`, `ProductGrid`, `ProductCard`, `AvailabilityBadge`,

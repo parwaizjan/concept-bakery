@@ -65,7 +65,9 @@ human instruction recorded in this file.
    paid bakery clone with indexing off.
 6. **Trilingual structure is mandatory.** Every user-facing string must be
    translatable. English is the default; `si` and `ta` are first-class. Do not
-   hardcode English copy into components. See `docs/ARCHITECTURE.md`.
+   hardcode English copy into components. See `docs/ARCHITECTURE.md`. One deliberate
+   exception: the Zuvo `DemoRibbon` is English in every locale (studio attribution,
+   not bakery content) and is dropped in clones via `site.demo.enabled: false`.
 7. **All bakery-specific values live in one place.** Brand name, logo, colors,
    WhatsApp number, address, map, hours, socials, locales and feature flags live in
    `src/data/site.ts` and the content collections. Components must not contain
@@ -85,6 +87,7 @@ human instruction recorded in this file.
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Bakery name, tagline, logo, colors, fonts            | `src/data/site.ts`, `src/styles/theme.css`, `public/logo.svg`                                             |
 | WhatsApp number, phone, address, map, hours, socials | `src/data/site.ts`                                                                                        |
+| Demo ribbon / `[DEMO]` tag / studio number           | `src/data/site.ts` (`demo`), `src/components/DemoRibbon.astro`                                            |
 | Indexing on/off, sitemap, robots                     | `src/data/site.ts` (`indexable`), `src/pages/robots.txt.ts`, `public/_headers` (`X-Robots-Tag`)           |
 | Enabled languages / default language                 | `src/data/site.ts`, `astro.config.mjs`                                                                    |
 | Menu items, categories, images (new items)           | `src/content/products/`, `src/content/categories/`, `src/assets/` (`products/`, `gallery/`, `gallery.ts`) |

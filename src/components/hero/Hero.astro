@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import heroImage from "../../assets/hero.jpg";
 import { site, type Locale } from "../../data/site";
 import { useTranslations } from "../../i18n/utils";
-import { buildWhatsAppUrl } from "../../lib/whatsapp";
+import { buildDemoWhatsAppUrl } from "../../lib/whatsapp";
 
 interface Props {
   lang: Locale;
@@ -14,7 +14,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const variant = site.heroVariant;
 const tagline = site.tagline[lang] ?? site.tagline.en;
-const whatsappUrl = buildWhatsAppUrl(t("msg.intro"));
+const whatsappUrl = buildDemoWhatsAppUrl(t("msg.intro"));
 ---
 
 {

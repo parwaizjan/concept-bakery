@@ -34,7 +34,7 @@ export function buildOrderMessage(order: OrderDetails, t: Translate): string {
   );
 
   const parts: string[] = [
-    t("msg.intro"),
+    withDemoTag(t("msg.intro")),
     "",
     `*${t("msg.items")}*`,
     ...itemLines,
@@ -67,4 +67,20 @@ export function buildWhatsAppUrl(
 ): string {
   const digits = number.replace(/\D/g, "");
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * Prefix a visitor-facing demo message so bakery orders/enquiries stand out from a
+ * website enquiry. Central switch: `site.demo` (clones set `enabled: false`).
+ */
+export function withDemoTag(message: string): string {
+  return site.demo.enabled ? `${site.demo.tag} ${message}` : message;
+}
+
+/** wa.me link for a demo CTA (order or enquiry), with the demo tag applied. */
+export function buildDemoWhatsAppUrl(
+  message: string,
+  number: string = site.whatsappNumber,
+): string {
+  return buildWhatsAppUrl(withDemoTag(message), number);
 }

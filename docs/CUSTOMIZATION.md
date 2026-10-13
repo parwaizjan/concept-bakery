@@ -25,6 +25,9 @@ It must be quick and mechanical. If a step is unclear or missing, fix this doc.
      `mapEmbedUrl`, `mapLink`
    - `hours`, `socials`
    - `order.allowPickup` / `order.allowDelivery`
+   - `demo.enabled: false` to remove the Zuvo sample ribbon **and** the
+     `[DEMO: Bakery]` prefix on visitor messages (a live bakery must not advertise
+     Zuvo or tag its orders as a demo)
    - `indexable: true` for a real bakery (and see "Turning on indexing" below)
    - `siteUrl` to the bakery's real domain, `currency` if different
    - `heroVariant` if the owner wants a different hero
@@ -91,6 +94,8 @@ npm run preview
 Then verify, on a phone-sized viewport:
 
 - [ ] Logo, colors, name, tagline are correct; no leftover demo branding.
+- [ ] No Zuvo sample ribbon and no `[DEMO: …]` prefix on live messages
+      (`site.demo.enabled: false`).
 - [ ] WhatsApp number is the owner's; no demo numbers anywhere.
 - [ ] Menu items, prices, images and translations are correct.
 - [ ] Sheet edits (price + availability) show up on the live page.
@@ -117,6 +122,8 @@ Then verify, on a phone-sized viewport:
   `public/_headers`, or leaving `siteUrl` at the demo domain — the site stays out of
   search results even though it is live.
 - Leaving the demo WhatsApp number or the demo Sheet URL.
+- Leaving Zuvo demo chrome in a live clone: the sample ribbon or the
+  `[DEMO: Bakery]` message prefix (`site.demo.enabled` must be `false`).
 - Editing colors in components instead of `theme.css`.
 - Adding English-only strings (missing `si`/`ta`).
 - Committing unoptimized multi-megabyte photos.

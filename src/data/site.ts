@@ -91,9 +91,9 @@ export const site = {
   demo: {
     enabled: true,
     tag: "[DEMO: Bakery]",
-    studioName: "Zuvo Web Studio Express",
+    studioName: "Zuvo Web Studio",
     studioWhatsAppNumber: "94743430033",
-    ribbonText: "Sample website — a demo by Zuvo Web Studio Express",
+    ribbonText: "Sample website — a demo by Zuvo Web Studio",
     ribbonCta: "Message us",
   },
 
